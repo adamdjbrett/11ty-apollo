@@ -1,3 +1,4 @@
+[![CI and Deploy to XMIT](https://github.com/adamdjbrett/11ty-apollo/actions/workflows/xmit-deploy.yml/badge.svg)](https://github.com/adamdjbrett/11ty-apollo/actions/workflows/xmit-deploy.yml)
 # apollo
 
 Modern and minimalistic blog theme powered by [Eleventy](https://11ty.dev), ported from the original [Zola](https://getzola.org) theme.
@@ -21,3 +22,5 @@ npm run start
 ```bash
 npm run build
 ```
+## hosting
+[xmit.co](https://xmit.co)
