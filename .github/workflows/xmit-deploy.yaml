@@ -3,6 +3,17 @@ name: Deploy Eleventy to XMIT
 on:
   push:
     branches: ["main", "master"]
+    paths:
+      - "src/**"
+      - "_data/**"
+      - "_includes/**"
+      - "sass/**"
+      - "scripts/**"
+      - "eleventy.config.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".nvmrc"
+      - ".github/workflows/xmit-deploy.yaml"
   workflow_dispatch:
     inputs:
       site:
@@ -25,18 +36,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: Build Eleventy site
-        run: npm run build
+        run: npm run build:ci
 
       - name: Verify build output
         run: |
@@ -62,4 +76,4 @@ jobs:
             echo "XMIT site/domain not provided." >&2
             exit 1
           fi
-          npx -y @xmit.co/xmit "$XMIT_SITE" _site
+          npx @xmit.co/xmit "$XMIT_SITE" _site

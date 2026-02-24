@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "npm run build:css && rm -rf _site && eleventy --config=eleventy.config.js --output=_site && pagefind --site _site --glob \"**/*.html\" && rm -rf src/public/pagefind && cp -R _site/pagefind src/public/pagefind",
+    "build:ci": "npm run build:css && rm -rf _site && eleventy --config=eleventy.config.js --output=_site",
     "start": "npm run build && eleventy --serve --config=eleventy.config.js --output=_site",
     "build:css": "node scripts/build-css.mjs"
   },
