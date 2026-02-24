@@ -1,6 +1,8 @@
 public/
 dist/
 .lighthouseci/
+.dev_site/
+_site/
 
 node_modules/
 npm-debug.log*

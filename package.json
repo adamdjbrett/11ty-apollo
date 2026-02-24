@@ -1,21 +1,21 @@
 {
-  "name": "apollo-theme",
-  "version": "1.0.0",
-  "description": "UI tests for Apollo Zola theme",
+  "name": "apollo-zola-11ty-port",
+  "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "test": "playwright test",
-    "test:docker-compose": "docker-compose -f docker-compose.test.yml run --rm playwright-tests",
-    "test:ui": "playwright test --ui",
-    "test:debug": "playwright test --debug",
-    "test:headed": "playwright test --headed",
-    "test:update-snapshots": "docker-compose -f docker-compose.test.yml run --rm playwright-tests npm run test:update-snapshots",
-    "serve": "zola serve",
-    "build": "zola build"
+    "build": "npm run build:css && rm -rf _site && eleventy --config=eleventy.config.js --output=_site && pagefind --site _site --glob \"**/*.html\" && rm -rf src/public/pagefind && cp -R _site/pagefind src/public/pagefind",
+    "start": "npm run build && eleventy --serve --config=eleventy.config.js --output=_site",
+    "build:css": "node scripts/build-css.mjs"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "devDependencies": {
-    "@playwright/test": "^1.46.0",
-    "@types/node": "^20.0.0",
-    "typescript": "^5.0.0"
+    "@11ty/eleventy": "3.1.2",
+    "@11ty/eleventy-plugin-rss": "^2.0.2",
+    "luxon": "^3.5.0",
+    "pagefind": "^1.3.0",
+    "sass": "^1.86.3"
   }
 }

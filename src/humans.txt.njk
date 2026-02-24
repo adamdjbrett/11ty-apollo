@@ -1,0 +1,20 @@
+---
+permalink: /humans.txt
+eleventyExcludeFromCollections: true
+---
+/* THEME PORT CREDIT */
+Theme: {{ metadata.themeName }}
+Original Theme Homepage: {{ metadata.themeHomepage }}
+Original Theme Author: {{ metadata.themeAuthor }}
+Original Theme License: {{ metadata.themeLicense }}
+Original Theme Demo: {{ metadata.themeDemo }}
+
+/* GITHUB AUTHORS / CONTRIBUTORS (from git history) */
+Contributors:
+{% for person in contributors.contributors %}- {{ person }}
+{% endfor %}
+Co-authors:
+{% for person in contributors.coauthors %}- {{ person }}
+{% endfor %}
+/* TECHNOLOGY */
+Built with 11ty {{ eleventyVersion }} on {{ "now" | currentYear }}

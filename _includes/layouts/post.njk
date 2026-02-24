@@ -1,0 +1,65 @@
+---
+layout: layouts/base.njk
+---
+<div class="visible-element-observer-root h-entry" data-selector="main article p">
+  <main>
+    <article>
+      <div class="title">
+        <div class="page-header p-name">{{ title }}</div>
+        <div class="meta">
+          {% if date %}
+          Posted on <time class="dt-published" datetime="{{ date | htmlDateString }}">{{ date | readableDate("yyyy-LL-dd") }}</time>
+          {% endif %}
+          {% if tags and tags.length %}
+          <span class="tags-label">::</span>
+          <span class="tags">
+            {% for tag in tags %}
+            <a href="/tags/{{ tag | slugify }}/">{{ tag }}</a>
+            {% endfor %}
+          </span>
+          {% endif %}
+          {% if draft or published == false %}
+          <span class="draft-label">DRAFT</span>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if url %}
+      <a class="u-url" href="{{ url | absoluteUrl(metadata.url) }}" style="display:none">Permalink</a>
+      {% endif %}
+
+      <section class="body e-content">
+        {{ content | safe }}
+      </section>
+
+      {% set nav = collections.posts | postNeighbors(page.url) %}
+      {% if nav.newer or nav.older %}
+      <nav aria-label="Post navigation" class="post-nav" style="display:flex;justify-content:space-between;gap:1rem;margin-top:2rem;">
+        <div>
+          {% if nav.newer %}
+          <a href="{{ nav.newer.url }}" rel="prev" aria-label="Previous post">&larr; {{ nav.newer.data.title }}</a>
+          {% endif %}
+        </div>
+        <div style="text-align:right;">
+          {% if nav.older %}
+          <a href="{{ nav.older.url }}" rel="next" aria-label="Next post">{{ nav.older.data.title }} &rarr;</a>
+          {% endif %}
+        </div>
+      </nav>
+      {% endif %}
+    </article>
+  </main>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": {{ title | dump | safe }},
+      "description": {{ (description or metadata.description) | dump | safe }},
+      "datePublished": {{ date | isoDate | dump | safe }},
+      "dateModified": {{ date | isoDate | dump | safe }},
+      "author": {"@type": "Person", "name": {{ (author or metadata.author) | dump | safe }}},
+      "mainEntityOfPage": {"@type": "WebPage", "@id": {{ (page.url or url or '/') | absoluteUrl(metadata.url) | dump | safe }}}
+    }
+  </script>
+</div>

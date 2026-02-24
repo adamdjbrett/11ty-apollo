@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="{{ metadata.language }}" class="dark light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }}{% else %}{{ metadata.title }}{% endif %}</title>
+  <meta name="description" content="{{ description or metadata.description }}">
+  <meta name="generator" content="Eleventy v{{ eleventyVersion }}">
+
+  {% for favicon in metadata.favicons %}
+  <link rel="icon" href="{{ favicon }}" sizes="any">
+  {% endfor %}
+  <link rel="apple-touch-icon" href="{{ metadata.icon }}">
+
+  <link rel="stylesheet" href="/fonts.css">
+  <link rel="stylesheet" type="text/css" href="/syntax-theme-dark.css" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" type="text/css" href="/syntax-theme-light.css" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" type="text/css" href="/theme/light.css">
+  <link id="darkModeStyle" rel="stylesheet" type="text/css" href="/theme/dark.css">
+  <script src="/js/themetoggle.js"></script>
+  <script>setTheme(getSavedTheme());</script>
+  <link rel="stylesheet" type="text/css" media="screen" href="/main.css">
+
+  <link rel="alternate" type="application/atom+xml" title="{{ metadata.title }} Feed (Atom)" href="/feed/feed.xml">
+  <link rel="alternate" type="application/feed+json" title="{{ metadata.title }} Feed (JSON)" href="/feed/feed.json">
+  <link rel="alternate" type="text/plain" title="{{ metadata.title }} twtxt" href="/feed/twtxt.txt">
+  <link rel="sitemap" type="application/xml" title="Sitemap Index" href="/sitemap.xml">
+  <link rel="sitemap" type="application/xml" title="Posts Sitemap" href="/sitemap-posts.xml">
+  <link rel="sitemap" type="application/xml" title="Pages Sitemap" href="/sitemap-pages.xml">
+  <link rel="sitemap" type="application/xml" title="Tags Sitemap" href="/sitemap-tags.xml">
+
+  <link rel="me" href="{{ metadata.url }}">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": {{ metadata.title | dump | safe }},
+      "description": {{ (description or metadata.description) | dump | safe }},
+      "url": {{ (url or '/') | absoluteUrl(metadata.url) | dump | safe }},
+      "inLanguage": {{ metadata.language | dump | safe }}
+    }
+  </script>
+
+  </head>
+<body>
+  <div class="left-content"></div>
+
+  <div class="content h-feed">
+    <nav>
+      <div class="left-nav">
+        <a class="p-name u-url" href="/">{{ metadata.title }}</a>
+        {% if metadata.socials and metadata.socials.length %}
+        <div class="socials">
+          {% for social in metadata.socials %}
+          <a rel="me noopener" target="_blank" href="{{ social.url }}" class="social">
+            <img alt="{{ social.name }}" src="/icons/social/{{ social.icon }}.svg" />
+          </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="right-nav">
+        {% for item in metadata.navigation %}
+        <a href="{{ item.url }}" style="margin-right: 0.5em">{{ item.label }}</a>
+        {% endfor %}
+
+        {% if metadata.hasSearch %}
+        <a href="/search/" class="search-button" title="Open search" aria-label="Open search">
+          <img src="/icons/search.svg" alt="Search" class="search-icon" />
+        </a>
+        {% endif %}
+
+        <a id="dark-mode-toggle" onclick="toggleTheme(); event.preventDefault();" href="#">
+          <img src="/icons/sun.svg" id="sun-icon" alt="Light" />
+          <img src="/icons/moon.svg" id="moon-icon" style="filter: invert(1)" alt="Dark" />
+          <img src="/icons/auto.svg" id="auto-icon" style="filter: invert(1)" alt="Auto" />
+        </a>
+        <script>updateItemToggleTheme();</script>
+      </div>
+    </nav>
+
+    {{ content | safe }}
+
+    <div class="h-card" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+      <a class="p-name u-url" href="{{ metadata.url }}">{{ metadata.title }}</a>
+      <img class="u-photo" src="{{ metadata.icon }}" alt="{{ metadata.title }}">
+      <p class="p-note">{{ metadata.description }}</p>
+    </div>
+  </div>
+
+  <div class="right-content"></div>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+---
+permalink: /sitemap-pages.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% for page in collections.all %}
+  {% if page.url and page.url != '/feed/feed.xml' and page.url != '/feed/feed.json' and page.url != '/feed/twtxt.txt' and not page.url.startsWith('/posts/') and not page.url.startsWith('/tags/') and page.data.sitemapIgnore != true %}
+  <url>
+    <loc>{{ page.url | absoluteUrl(metadata.url) }}</loc>
+    <lastmod>{% if page.date %}{{ page.date | isoDate }}{% else %}{{ 'now' | isoDate }}{% endif %}</lastmod>
+  </url>
+  {% endif %}
+{% endfor %}
+</urlset>

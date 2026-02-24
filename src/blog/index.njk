@@ -1,0 +1,29 @@
+---
+layout: layouts/base.njk
+title: Posts
+pagination:
+  data: collections.posts
+  size: 7
+  alias: postsPage
+permalink: "/posts/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber + 1 }}/{% endif %}index.html"
+---
+{% import "partials/apollo-posts.njk" as apollo %}
+{{ apollo.pageHeader("Posts") }}
+<main class="post-list">
+  {{ apollo.postList(postsPage) }}
+</main>
+
+{% if pagination.href.previous or pagination.href.next %}
+<ul class="pagination">
+  {% if pagination.href.previous %}
+  <span class="page-item page-prev">
+    <a href="{{ pagination.href.previous }}" class="page-link" aria-label="Previous"><span aria-hidden="true">← Prev</span></a>
+  </span>
+  {% endif %}
+  {% if pagination.href.next %}
+  <span class="page-item page-next">
+    <a href="{{ pagination.href.next }}" class="page-link" aria-label="Next"><span aria-hidden="true">Next →</span></a>
+  </span>
+  {% endif %}
+</ul>
+{% endif %}

@@ -1,0 +1,11 @@
+---
+permalink: /feed/twtxt.txt
+eleventyExcludeFromCollections: true
+---
+# twtxt is an open, distributed microblogging format: https://twtxt.readthedocs.io/
+# nick = {{ metadata.title }}
+# url = {{ metadata.url }}/feed/twtxt.txt
+# avatar = {{ metadata.url }}{{ metadata.icon }}
+
+{% for post in collections.posts %}{{ post.date | readableDate("yyyy-LL-dd") }}T00:00:00Z	{{ metadata.url }}{{ post.url }} {{ post.data.title }}
+{% endfor %}
